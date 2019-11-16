@@ -86,18 +86,56 @@ Cuando un conjunto de usuarios consulta un enésimo número (superior a 1000000)
 **Preguntas**
 
 1. ¿Cuántos y cuáles recursos crea Azure junto con la VM?
+
+- Crea los siguientes recursos 
+![Imágen 1](img/punto1.JPG)
+
 2. ¿Brevemente describa para qué sirve cada recurso?
+- **Virtual Network:** Azure Virtual Network (VNet) es el bloque de creación fundamental de una red privada en Azure. VNet permite muchos tipos de recursos de Azure, como Azure Virtual Machines (máquinas virtuales), para comunicarse de forma segura entre usuarios, con Internet y con las redes locales.
+- **Storage account:** Azure Storage es un servicio administrado por Microsoft que proporciona almacenamiento en la nube altamente disponible, seguro, duradero, escalable y redundante. 
+- **Virtual machine:** es un software que simula un sistema de computación y puede ejecutar programas como si fuese una computadora real.
+- **Public Ip address:** Una dirección IP pública es una dirección IP dinámica o estática que puede asignar a máquinas virtuales, equilibradores de carga y puertas de enlace de red virtual para comunicarse con Internet. Sus direcciones IP públicas están asociadas con su suscripción de Azure y se pueden mover libremente entre los recursos de Azure.
+- **Network security group:** Un grupo de seguridad de red es una capa de seguridad que actúa como un firewall virtual para controlar el tráfico de entrada y salida de máquinas virtuales (a través de interfaces de red) y subredes. Contiene un conjunto de reglas de seguridad que permiten o niegan el tráfico entrante y saliente utilizando las siguientes 5 tuplas: protocolo, rango de dirección IP de origen, rango de puerto de origen, rango de dirección IP de destino y rango de puerto de destino.
+- **Network interface:** Las interfaces de red se utilizan para configurar direcciones IP, configuraciones de red virtual y servidores DNS que se asignarán a una máquina virtual. Microsoft Azure admite la conexión de múltiples interfaces de red (NIC) a una máquina virtual para una flexibilidad adicional en las opciones de conectividad de red.
+- **Disk:** Cada máquina virtual de Azure está conectada a al menos un disco para el sistema operativo y el almacenamiento persistente. Un disco puede ser una unidad estándar (HDD) o premium (SSD). Los discos creados con este método solo se pueden usar con máquinas virtuales clásicas.
+
 3. ¿Al cerrar la conexión ssh con la VM, por qué se cae la aplicación que ejecutamos con el comando `npm FibonacciApp.js`? ¿Por qué debemos crear un *Inbound port rule* antes de acceder al servicio?
+
+
 4. Adjunte tabla de tiempos e interprete por qué la función tarda tando tiempo.
+
+    ![Imágen 1](img/punto4.JPG)
+
 5. Adjunte imágen del consumo de CPU de la VM e interprete por qué la función consume esa cantidad de CPU.
+
+![Imágen 1](img/punto5.JPG)
+
 6. Adjunte la imagen del resumen de la ejecución de Postman. Interprete:
     * Tiempos de ejecución de cada petición.
     * Si hubo fallos documentelos y explique.
+    ![Imágen 1](img/tabla1.JPG)
+    ![Imágen 1](img/tabla2.JPG)
+
 7. ¿Cuál es la diferencia entre los tamaños `B2ms` y `B1ls` (no solo busque especificaciones de infraestructura)?
+- **B1ls:**
+    * RAM 0.5
+- **B2ms:** 
+    * RAM 8
 8. ¿Aumentar el tamaño de la VM es una buena solución en este escenario?, ¿Qué pasa con la FibonacciApp cuando cambiamos el tamaño de la VM?
+
+    Produjo una disminucion en el consumo de cpu al momento del proceso de las peticiones, pero sigue con el mismo tiempo de ejecucion
+
 9. ¿Qué pasa con la infraestructura cuando cambia el tamaño de la VM? ¿Qué efectos negativos implica?
+
+    Se reinicia la maquina en el proceso que se cambia el tamaño de la VM, dejando sin servicio la aplicacion
+
 10. ¿Hubo mejora en el consumo de CPU o en los tiempos de respuesta? Si/No ¿Por qué?
+
+    Hubo mejora en el consumo de la CPU haciendo que consumiera menos pero los tiempos de respuesta seguian igual.
+
 11. Aumente la cantidad de ejecuciones paralelas del comando de postman a `4`. ¿El comportamiento del sistema es porcentualmente mejor?
+
+
 
 ### Parte 2 - Escalabilidad horizontal
 
@@ -174,6 +212,26 @@ http://52.155.223.248/fibonacci/1
 
 2. Realice las pruebas de carga con `newman` que se realizaron en la parte 1 y haga un informe comparativo donde contraste: tiempos de respuesta, cantidad de peticiones respondidas con éxito, costos de las 2 infraestrucruras, es decir, la que desarrollamos con balanceo de carga horizontal y la que se hizo con una maquina virtual escalada.
 
+- Tablas de tiempo con 2 en paralelo
+
+    ![Imágen 1](img/parte2/tabla1.JPG)
+    ![Imágen 1](img/parte2/tabla2.JPG)
+
+- Rendimiento de CPU 
+
+    * MV1 
+    
+        ![Imágen 1](img/parte2/vm1-p1.JPG)
+
+    * MV2 
+    
+        ![Imágen 1](img/parte2/vm2-p1.JPG)
+
+    * MV3
+    
+        ![Imágen 1](img/parte2/vm3-p1.JPG)
+
+
 3. Agregue una 4 maquina virtual y realice las pruebas de newman, pero esta vez no lance 2 peticiones en paralelo, sino que incrementelo a 4. Haga un informe donde presente el comportamiento de la CPU de las 4 VM y explique porque la tasa de éxito de las peticiones aumento con este estilo de escalabilidad.
 
 ```
@@ -182,18 +240,74 @@ newman run ARSW_LOAD-BALANCING_AZURE.postman_collection.json -e [ARSW_LOAD-BALAN
 newman run ARSW_LOAD-BALANCING_AZURE.postman_collection.json -e [ARSW_LOAD-BALANCING_AZURE].postman_environment.json -n 10 &
 newman run ARSW_LOAD-BALANCING_AZURE.postman_collection.json -e [ARSW_LOAD-BALANCING_AZURE].postman_environment.json -n 10
 ```
+- Tablas de tiempo con 4 en paralelo
+
+![Imágen 1](img/parte2/tabla1-p2.JPG)
+![Imágen 1](img/parte2/tapa2-p2.JPG)
+![Imágen 1](img/parte2/tabla3-p2.JPG)
+![Imágen 1](img/parte2/tabla4-p2.JPG)
+
+- Rendimiento de CPU 
+
+    * MV1 
+    
+        ![Imágen 1](img/parte2/vm1-p2.JPG)
+
+    * MV2 
+    
+        ![Imágen 1](img/parte2/vm2-p2.JPG)
+
+    * MV3
+    
+        ![Imágen 1](img/parte2/vm3-p2.JPG)
+
+    * MV4
+    
+        ![Imágen 1](img/parte2/vm4-p2.JPG)
 
 **Preguntas**
 
 * ¿Cuáles son los tipos de balanceadores de carga en Azure y en qué se diferencian?, ¿Qué es SKU, qué tipos hay y en qué se diferencian?, ¿Por qué el balanceador de carga necesita una IP pública?
+    * **Simplify load balancing for applications:** Con el equilibrio de carga incorporado para servicios en la nube y máquinas virtuales, puede crear aplicaciones altamente disponibles y escalables en minutos. Azure Load Balancer admite protocolos basados ​​en TCP / UDP como HTTP, HTTPS y SMTP, y protocolos utilizados para aplicaciones de mensajería de voz y video en tiempo real.
+    * **Internal load balancer:** Use el equilibrador de carga interno para el tráfico entre máquinas virtuales dentro de sus redes virtuales privadas, o úselo para crear aplicaciones híbridas de varios niveles.
+
 * ¿Cuál es el propósito del *Backend Pool*?
+
+     se refiere al conjunto de backends que reciben tráfico similar para su aplicación. En otras palabras, es una agrupación lógica de sus instancias de aplicaciones en todo el mundo que reciben el mismo tráfico y responden con el comportamiento esperado.
+
 * ¿Cuál es el propósito del *Health Probe*?
+
+    permite que el Load Balancer detecte el estado del punto final del back-end. La configuración de la health probe y las respuestas de la sonda determinan qué instancias de grupo de back-end recibirán nuevos flujos.
+
 * ¿Cuál es el propósito de la *Load Balancing Rule*? ¿Qué tipos de sesión persistente existen, por qué esto es importante y cómo puede afectar la escalabilidad del sistema?.
+    * Una regla de equilibrador de carga define la configuración de IP de interfaz para el tráfico entrante y el grupo de back-end para recibir el tráfico, junto con el puerto de origen y destino requerido.
+    * Proporciona equilibrio de carga entrante y la regla de salida controla el NAT saliente proporcionado para la VM. Este inicio rápido utiliza dos grupos de backend separados, uno para entrada y otro para salida, para ilustrar la capacidad y permitir flexibilidad para este escenario.
+
 * ¿Qué es una *Virtual Network*? ¿Qué es una *Subnet*? ¿Para qué sirven los *address space* y *address range*?
+
+    * **Virtual Network:** Sirve para comunicarse de forma segura entre usuarios, con Internet y con las redes locales.
+    * **Subnet:**  le permiten segmentar la red virtual en una o más subredes y asignar una parte del espacio de direcciones de la red virtual a cada subred. Luego puede implementar recursos de Azure en una subred específica.
+    * **address space:** al crear una red virtual, debe especificar un espacio de direcciones IP privadas personalizadas utilizando direcciones públicas y privadas (RFC 1918). Azure asigna recursos en una red virtual a una dirección IP privada desde el espacio de direcciones que asigne. 
+    * **address range:** El rango de direcciones que defina puede ser público o privado (RFC 1918). Ya sea que defina el rango de direcciones como público o privado, solo se puede acceder al rango de direcciones desde la red virtual, desde redes virtuales interconectadas y desde cualquier red local que haya conectado a la red virtual.
+
 * ¿Qué son las *Availability Zone* y por qué seleccionamos 3 diferentes zonas?. ¿Qué significa que una IP sea *zone-redundant*?
+
+    * **Availability Zone:** es una oferta de alta disponibilidad que protege sus aplicaciones y datos de fallas en el centro de datos. Las zonas de disponibilidad son ubicaciones físicas únicas dentro de una región de Azure. Cada zona está compuesta por uno o más centros de datos equipados con alimentación, refrigeración y redes independientes. 
+    * **zone-redundant:** replican sus aplicaciones y datos en zonas de disponibilidad para protegerlos de puntos únicos de falla.
+
+
 * ¿Cuál es el propósito del *Network Security Group*?
+
+    * **Network Security Group:** es una capa de seguridad que actúa como un firewall virtual para controlar el tráfico de entrada y salida de máquinas virtuales (a través de interfaces de red) y subredes. Contiene un conjunto de reglas de seguridad que permiten o niegan el tráfico entrante y saliente utilizando las siguientes 5 tuplas: protocolo, rango de dirección IP de origen, rango de puerto de origen, rango de dirección IP de destino y rango de puerto de destino.
+
 * Informe de newman 1 (Punto 2)
+
+
+
 * Presente el Diagrama de Despliegue de la solución.
+
+
+
 
 
 
