@@ -111,10 +111,14 @@ Cuando un conjunto de usuarios consulta un enésimo número (superior a 1000000)
 ![Imágen 1](img/punto5.JPG)
 
 6. Adjunte la imagen del resumen de la ejecución de Postman. Interprete:
+
     * Tiempos de ejecución de cada petición.
     * Si hubo fallos documentelos y explique.
+    
+    
     ![Imágen 1](img/tabla1.JPG)
     ![Imágen 1](img/tabla2.JPG)
+    
 
 7. ¿Cuál es la diferencia entre los tamaños `B2ms` y `B1ls` (no solo busque especificaciones de infraestructura)?
 - **B1ls:**
